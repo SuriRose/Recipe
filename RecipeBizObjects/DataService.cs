@@ -6,7 +6,7 @@ namespace RecipeBizObjects
 {
     public static class DataService
     {
-        //private static string connstring = "Server=.\\SQLExpress;Initial Catalog=PortfolioDB;Trusted_Connection=yes;";
+        //private static string connstring = "Server=.\\SQLExpress;Initial Catalog=RecipeDB;Trusted_Connection=yes;";
         //public static string SetConnectionString(string servername, string databasename, string username, string password)
         //{
         //    connstring = "Server=tcp:" + servername +
