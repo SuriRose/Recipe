@@ -6,7 +6,7 @@ namespace RecipeBizObjects
 {
     public static class DataService
     {
-        //private static string connstring = "Server=tcp:srosenfeld.database.windows.net,1433;Initial Catalog=RecipeDB;Persist Security Info=False;User ID=srosenfeldadmin;Password=CPU123!@#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
+        //private static string connstring = "Server=.\\SQLExpress;Initial Catalog=PortfolioDB;Trusted_Connection=yes;";
         //public static string SetConnectionString(string servername, string databasename, string username, string password)
         //{
         //    connstring = "Server=tcp:" + servername +
