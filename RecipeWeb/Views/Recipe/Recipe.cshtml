@@ -1,0 +1,162 @@
+﻿@using RecipeBizObjects;
+@model RecipeBizObjects.bizRecipe
+
+@{
+    ViewBag.Title = Model.RecipeName;
+}
+<style>
+    .parent {
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+
+    .image1 {
+        position: relative;
+        top: 0;
+        left: 200px;
+        border: 1px solid #000000;
+        background-size:auto;
+    }
+
+    .image2 {
+        position: absolute;
+        top: 50px;
+        left: 160px;
+        background-size:cover;
+    }
+
+    .column1 {
+        column-count: 2;
+        column-gap: 40px;
+        column-rule: 1px;
+    }
+    .column {
+  width: 33.33%;
+  float: left;
+  height: 100px;
+}
+
+</style>
+<div class="recipe-detail" style="background-color: white; z-index: 1;">
+    <section class="section-heading" style="">
+        <h1>
+            <dd class="col-sm-6">
+                @Html.DisplayFor(model => model.RecipeName)
+            </dd>
+        </h1>
+       @* <div>*@
+            <hr />
+            @*<div class="col-md-3 fixedcol">*@
+                <div class="column1">
+        <div class="site-width">
+            <div class="parent">
+                <img class="image1; bg-refactor; center" src="/images/@(Model.ImageCode).JPG" style=" filter: blur(8px);  height:500px; " />
+                <img class="image2 bg-refactor; center" src="/images/@(Model.ImageCode).JPG" style="height:500px; " />
+            </div>
+            </div>
+        </div>
+    </section>
+    <div />
+    <div />
+    <br>
+    <br>
+    <br/>
+    <br/>
+    <br>
+    <div class="column1">
+<div class="col-md-4">
+    <dl class="row">
+        <dt class="col-sm-10">
+            @Html.DisplayNameFor(model => model.CreatedByUsersId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CreatedByUsersId)
+        </dd>
+        <dt class="col-sm-10">
+            @Html.DisplayNameFor(model => model.CuisineId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CuisineId)
+        </dd>
+        <dt class="col-sm-10">
+            @Html.DisplayNameFor(model => model.NumCalories)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumCalories)
+        </dd>
+        <dt class="col-sm-10">
+            @Html.DisplayNameFor(model => model.NumOfIngredients)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumOfIngredients)
+        </dd>
+        <dt class="col-sm-10">
+            @Html.DisplayNameFor(model => model.NumOfSteps)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumOfSteps)
+        </dd>
+        <dt class="col-sm-10">
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+        <dt class="col-sm-10">
+            @Html.DisplayNameFor(model => model.DatePublished)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DatePublished)
+        </dd>
+        <dt class="col-sm-10">
+            @Html.DisplayNameFor(model => model.DateArchived)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DateArchived)
+        </dd>
+        <dt class="col-sm-10">
+            @Html.DisplayNameFor(model => model.RecipeStatusName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.RecipeStatusName)
+        </dd>
+    </dl>
+    <div />
+    </div>
+    <br>
+    <span style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Ingredient List</span>
+</div>
+<div class="row">
+    <ul>
+        @foreach (bizRecipeIngredient ri in Model.RecipeIngredientList(true))
+        {
+            <li>
+                @ri.IngredientList
+            </li>
+        }
+    </ul>
+</div>
+<br>
+<span style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Step Description</span>
+<div class="row">
+    @foreach (bizPrepStep p in Model.PrepStepList(true))
+    {
+        <table>
+            <tr>
+                <td>@p.PrepStepDesc</td>
+            </tr>
+        </table>
+    }
+</div>
+<br />
+<div />
+    <br />
+    <div>
+        @Html.ActionLink("Edit", "Edit", new {  id = Model.Code  } ,new{Class = "btn btn-outline-primary"}) |
+        @Html.ActionLink("Delete", "Delete", new { id = Model.Code  }, new{Class = "btn btn-outline-danger"}) |
+        <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+    </div>
+</div>
+<div/>
+

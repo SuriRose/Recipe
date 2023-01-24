@@ -1,0 +1,56 @@
+﻿@using RecipeBizObjects;
+@{
+    ViewBag.Title = "Recipe List";
+}
+@model List<bizRecipe>
+@{
+    bizRecipe recipe = Model[0];
+}
+
+<div class="row">
+    <div class="col-md-12 text-center"></div>
+    <h1>Recipes</h1>
+</div>
+<p>
+    <a Class="btn btn-outline-danger" href="/Recipe/Edit">Create New</a>
+</p>
+<br>
+<div class="row">
+    <div  class="table-responsive; table overflow-visible">
+        <table class="table border-3; table table-hover">
+            <tr>
+                <th>Image</th>
+                <th>Recipe Name</th>
+                <th>Recipe Status</th>
+                <th>Number Of Calories</th>
+                <th>Number Of Ingredients</th>
+                <th>Number Of Steps</th>
+              @*<th>DateCreated</th>
+                <th>DatePublished</th>
+                <th>DateArchived</th>*@
+            </tr>
+            @foreach (bizRecipe r in Model)
+            {
+                <tr>
+                    <!-- <td>@Html.ActionLink(@r.RecipeName, "Recipe", new{id=r.RecipeId})</td> -->
+                <td class="col-auto"><img src="/images/@(r.ImageCode.ToString()).JPG" width="100" height="130"></td>
+                    <!-- <td>@Html.ActionLink(r.RecipeName,"Recipe", new{id=r.RecipeId}) </td>-->
+                    @*<td>@Html.ActionLink(r.RecipeName.ToString(), "Recipe", new{id = r.Code})</td>*@
+                    <td style="color:darkred">@Html.ActionLink(r.RecipeName.ToString(), "Recipe", new{id = r.Code})</td>
+                    @*@Html.ActionLink(r.RecipeName,"Recipe",  new{code = r.Code} )*@
+                    <td>@r.RecipeStatusName</td>
+                    <td>@r.NumCalories</td>
+                    <td>@r.NumOfIngredients</td>
+                    <td>@r.NumOfSteps</td>
+                   @*<td>@r.DateCreated</td>
+                    <td>@r.DatePublished</td>
+                    <td>@r.DateArchived</td>*@
+                     <td>@Html.ActionLink("Edit", "Edit", new{id = r.Code}) |
+                     @Html.ActionLink("Delete","Delete", new{id = r.Code}) |
+                     @Html.ActionLink("Details","Recipe", new{id = r.Code})</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+

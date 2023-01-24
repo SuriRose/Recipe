@@ -1,0 +1,41 @@
+﻿@model IEnumerable<RecipeBizObjects.bizCuisineType>
+
+@{
+    ViewData["Title"] = "Cuisine";
+}
+
+<h1>Cuisine</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CuisineId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CuisineName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CuisineId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CuisineName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

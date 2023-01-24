@@ -1,0 +1,98 @@
+﻿@model RecipeBizObjects.bizRecipe
+
+@{
+    ViewBag.Title = "Edit";
+    //string errormsg = ViewBag.ErrorMessage;
+    SelectList lstCuisineType = new SelectList(Model.CuisineTypeList(), "CuisineId", "CuisineName");
+    SelectList lstCreatedByUsers = new SelectList(Model.CreatedByUsersList(), "UsersId", "UsersName");
+}
+<style>
+
+</style>
+<h1>Edit @Model.RecipeName</h1>
+
+@*@if (string.IsNullOrEmpty(errormsg) == false)
+    {
+    <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
+}*@
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="RecipeId" ; />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RecipeName" class="control-label"></label>
+                <input asp-for="RecipeName" class="form-control" />
+                <span asp-validation-for="RecipeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CuisineId" class="control-label"></label>
+                <select asp-for="CuisineId" asp-items="lstCuisineType" class="form-select form-select">
+                    <option value="">Select a Cuisine Type</option>
+                </select>
+                <span asp-validation-for="CuisineId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CreatedByUsersId" class="control-label"></label>
+                <select asp-for="CreatedByUsersId" asp-items="lstCreatedByUsers" class="form-select form-select">
+                    <option value="">Select a User</option>
+                </select>
+                <span asp-validation-for="CreatedByUsersId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NumCalories" class="control-label"></label>
+                <input asp-for="NumCalories" class="form-control" />
+                <span asp-validation-for="NumCalories" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
+                <label asp-for="NumOfIngredients" class="control-label"></label>
+                <input asp-for="NumOfIngredients" class="form-control" />
+                <span asp-validation-for="NumOfIngredients" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                <label asp-for="NumOfSteps" class="control-label"></label>
+                <input asp-for="NumOfSteps" class="form-control" />
+                <span asp-validation-for="NumOfSteps" class="text-danger"></span>
+                </div>*@
+            <div class="form-group">
+                <label asp-for="DateCreated" class="control-label"></label>
+                <input asp-for="DateCreated" class="form-control" />
+                <span asp-validation-for="DateCreated" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DatePublished" class="control-label"></label>
+                <input asp-for="DatePublished" class="form-control" />
+                <span asp-validation-for="DatePublished" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateArchived" class="control-label"></label>
+                <input asp-for="DateArchived" class="form-control" />
+                <span asp-validation-for="DateArchived" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="RecipeStatusName" class="control-label"></label>
+                <input asp-for="RecipeStatusName" class="form-control" />
+                <span asp-validation-for="RecipeStatusName" class="text-danger"></span>
+                </div>*@
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-outline-success" /> |
+                <a asp-action="Index" class="btn btn-outline-primary">Back to List</a> |
+                @Html.ActionLink("Back to Recipe", "Recipe", new {  id = Model.Code  } ,new{Class = "btn btn-outline-secondary"})
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+</div>
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

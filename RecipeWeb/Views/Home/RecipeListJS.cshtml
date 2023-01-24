@@ -1,0 +1,185 @@
+﻿@{
+    ViewBag.Title = "RecipeListJS";
+}
+<style>
+    .btn-group button {
+        color: white;
+        float: right;
+        padding: 10px 24px;
+        font-size: 13px;
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Recipe List</h2>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-success" onclick="RefreshList()">Refresh List</button>
+        <button class="btn btn-primary" onclick="ShowAll()">Show All</button>
+        <button class="btn btn-danger" onclick="HideAll()">Hide All</button>
+        <button type="button" class="btn btn-secondary" onclick="AddRecipe()" data-bs-toggle="modal" data-bs-target="#myModal">See Meal</button>
+        
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <table class="table" id="tblRecipe">
+        </table>
+    </div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row" id="dvToggleView" onclick="ClearToggleView()">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="align-content-center">Selected Meal Items:</h1>
+                <div class="row" id="dvAddToMeal">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+           
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Meal</h4>
+                <button type="button" class="btn-close" id="myModal" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body"
+                 id="modalBody">
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="myModal" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const dvAddToMeal = document.getElementById("dvAddToMeal");
+    const dvToggleView = document.getElementById("dvToggleView");
+    const tblRecipe = document.getElementById("tblRecipe");
+
+    let recipearray = [];
+
+    RefreshList();
+
+    function ShowRecipeList(json_array) {
+        recipearray = json_array;
+        tblRecipe.replaceChildren();
+        json_array.forEach(r => CreateRecipeRow(r));
+    }
+
+    function CreateRecipeRow(recipe) {
+        const r = document.createElement("tr");
+        let td = document.createElement("td");
+        td.innerHTML = `<a style="color: black" href='/Recipe/Recipe/${recipe.code}'>${recipe.code}</a>`;
+        r.appendChild(td);
+
+        td = document.createElement("td");
+        td.innerHTML = GetToggleViewButton(recipe, true);
+        r.appendChild(td);
+
+        td = document.createElement("td");
+        td.innerHTML = GetToggleViewButton(recipe, false);
+        r.appendChild(td);
+
+        tblRecipe.appendChild(r);
+    }
+
+    function CreateRecipeCard(recipe, ToggleView) {
+        let dv = ToggleView ? dvToggleView : dvAddToMeal;
+        console.log(recipe);
+        let card = `
+                   <div id="${ToggleView ? "" : GetCardId(recipe.code)}" class="col-md-4">
+           <div class="card">
+                               ${ToggleView ? "" : `
+                               
+                                    <div class="d-flex justify-content-between card-header ">
+               <button onclick=HideCard('${recipe.code}') class="btn btn-danger">X</button>
+         </div>`}
+               <img class="card-img-top" src="/images/${recipe.imageCode}.JPG" alt="Card image">
+               <div class="card-body">
+               <h4 class="card-title">${recipe.recipeName}</h4>
+               <p class="card-text">${"Number of Calories - " + recipe.numCalories}</p>
+                   <div class="btn-group">
+               ${ToggleView ? "" : `
+                            `}
+                   <a href="/Recipe/Recipe/${recipe.code}" class="btn btn-primary buttons">See Recipe</a>
+                   </div>
+               </div>
+               </div>
+           </div> `
+        if (ToggleView) {
+            dv.innerHTML = card;
+        }
+        else {
+            if (document.getElementById(GetCardId(recipe.code)) != null) {
+                HideCard(recipe.code);
+            }
+            dv.innerHTML = card + dv.innerHTML;
+        }
+    }
+    function GetToggleViewButton(recipe, ToggleView) {
+        return `<button onclick='ShowRecipe("${recipe.code}",${ToggleView})' class = 'btn btn-light bg-light'>${ToggleView ? "ToggleView" : "AddToMeal"}</button>`
+    }
+    function ShowRecipe(code, ToggleView) {
+        const recipe = recipearray.find(r => r.code == code);
+        CreateRecipeCard(recipe, ToggleView);
+    }
+    function HideCard(code) {
+        const id = GetCardId(code);
+        const card = document.getElementById(id);
+        dvAddToMeal.removeChild(card);
+    }
+    function AddCard(code) {
+        const id = GetCardId(code);
+        const card = document.getElementById(id);
+        dvAddToMeal.Add(card);
+    }
+    function RefreshList() {
+        fetch("/Recipe/APIRecipeListJS")
+            .then(resp => resp.json())
+            .then(json_array => ShowRecipeList(json_array));
+    }
+    function ShowAll() {
+        recipearray.forEach(r => ShowRecipe(r.code, false));
+    }
+    function HideAll() {
+        recipearray.forEach(r => HideCard(r.code));
+    }
+    //function AddRecipe(code, modalBody) {
+    //    const recipe = recipearray.find(r => r.code == code);
+    //    CreateRecipeCard(recipe, modalBody);
+    //    onClick();
+    //}
+    function ClearToggleView() {
+        dvToggleView.replaceChildren();
+    }
+    function GetCardId(code) {
+        return "card-" + code;
+    }
+     function onClick () {
+        $('#myModal').modal('toggle');
+    }
+</script>
